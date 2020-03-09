@@ -8,8 +8,65 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
+  <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <%= link_to 'Qram', root_path, class: 'navbar-brand' %>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+  <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+  <li class="nav-item">
+    <%= link_to new_car_path, class: 'nav-link' do %>
+      <i class="fa fa-plus-circle"></i>
+      New Car
+    <% end %>
+  </li>
+</ul>
+<ul class="navbar-nav">
+      <% if dealer_signed_in? %>
+          <li class="nav-item">
+            <%= link_to 'Dealer Profile', dealer_path(current_dealer), class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign out', destroy_dealer_session_path, method: :delete, class: 'nav-link' %>
+          </li>
+      <% else %>
+          <li class="nav-item">
+            <%= link_to 'Sign in', new_dealer_session_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign up', new_dealer_registration_path, class: 'nav-link' %>
+          </li>
+      <% end %>
+
+      <% if consumer_signed_in? %>
+          <li class="nav-item">
+            <%= link_to 'Consumer Profile', consumer_path(current_consumer), class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign out', destroy_consumer_session_path, method: :delete, class: 'nav-link' %>
+          </li>
+      <% else %>
+          <li class="nav-item">
+            <%= link_to 'Sign in', new_consumer_session_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Sign up', new_consumer_registration_path, class: 'nav-link' %>
+          </li>
+      <% end %>
+
+    </ul>
+  </div>
+</nav>
+
+<% if notice.present? %>
+  <p class="alert alert-info"><%= notice %></p>
+<% end %>
+<% if alert.present? %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
+
     <%= yield %>
   </body>
 </html>

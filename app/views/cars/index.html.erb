@@ -1,0 +1,78 @@
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner" role="listbox">
+    <div class="carousel-item active">
+      <%= image_tag 'slider1.jpg', class: 'img-fluid' %>
+      <div class="carousel-caption d-none d-md-block">
+        <h3>Find the best cars</h3>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <%= image_tag 'slider2.jpg', class: 'img-fluid' %>
+      <div class="carousel-caption d-none d-md-block">
+        <h3>Where to relax?, Just drive there</h3>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <%= image_tag 'slider3.jpg', class: 'img-fluid' %>
+      <div class="carousel-caption d-none d-md-block">
+        <h3>They envy you now!</h3>
+      </div>
+    </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+
+<% @cars.each do |car| %>
+  <div class="booyah-box col-10 offset-1">
+      <h1><%= link_to car.name, car_path(car) %></h1><br />
+      <i><%= car.address %></i><br /><br />
+      <p><%= car.cdescription %></p><br />
+      <p><%= car.ddescription %></p><br />
+
+    <% if car.dealer.present? %>
+      <small><%= car.dealer.email %></small>
+    <% end %>
+
+    <% if car.consumer.present? %>
+      <small><%= car.consumer.email %></small>
+    <% end %>
+    
+    <% if car.reviews.present? %>
+    <div class="col-12">
+      <blockquote>
+        <% if car.reviews.last.humanized_rating.present? %>
+          <b><%= car.reviews.last.humanized_rating %></b> -
+        <% end %>
+        <%= car.reviews.last.message %>
+        <small><%= car.reviews.last.consumer.email %></small>
+      </blockquote>
+    </div>
+    <% end %>
+
+    <% if car.descriptions.present? %>
+    <div class="col-12">
+      <blockquote>
+        <% if car.descriptions.last.humanized_rating.present? %>
+          <b><%= car.descriptions.last.humanized_rating %></b> -
+        <% end %>
+        <%= car.descriptions.last.message %>
+        <small><%= car.descriptions.last.dealer.email %></small>
+      </blockquote>
+    </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= will_paginate @cars %>
