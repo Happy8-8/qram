@@ -1,0 +1,67 @@
+<div class="booyah-box">
+    <div class="row">
+        <div class="col-4">
+            <%= image_tag 'dealer.png' %>
+    </div>
+
+<div class="col-8">
+
+  <h1><%= @dealer.email %></h1>
+  <h3>Member Since: <%= @dealer.created_at.strftime("%B %d, %Y") %></h3>
+  <h4><%= @dealer.descriptions.count %> total descriptions</h4>
+  <h4><%= @dealer.descriptions.where(rating: '5_stars').count %> total 5 star reviews</h4>
+  </div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<br /><br />
+<h1 class="text-center">My Descriptions</h1>
+<br /><br />
+    <div class="row">
+        <% @dealer.descriptions.each do |description| %>
+            <div class="col-12 col-sm-6">
+            <h2 class="text-center"><%= link_to description.car.name, car_path(description.car) %></h2>
+            <blockquote>
+                <% if description.humanized_rating.present? %>
+                <b><%= description.humanized_rating %></b> -
+                <% end %>
+                <%= description.message %>
+                <small><%= description.dealer.email %></small>
+            </blockquote>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="clear"></div>
+    <br /><br />
+    <h2 class="text-center">My Cars</h2>
+    <br /><br />
+    
+    <% @dealer.cars.each do |car| %>
+      <div class="booyah-box col-10 offset-1">
+        <h1><%= link_to car.name, car_path(car) %></h1><br />
+        <i><%= car.address %></i><br />
+        <p><%= car.description %></p><br />
+    
+        <% if car.dealer.present? %>
+          <small><%= car.dealer.email %></small>
+        <% end %>
+    
+        <% if car.descriptions.present? %>
+          <div class="col-12">
+            <blockquote>
+              <% if car.descriptions.last.humanized_rating.present? %>
+                <b><%= car.descriptions.last.humanized_rating %></b> -
+              <% end %>
+              <%= car.descriptions.last.message %>
+              <small><%= car.descriptions.last.dealer.email %></small>
+            </blockquote>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% @dealer.cars.each do |car| %>
+        <%= car.inspect %>
+    <% end %>

@@ -16,5 +16,5 @@ class Review < ApplicationRecord
 
   def send_review_email
     NotificationMailer.review_added(self).deliver_now
-end
+  end
 end

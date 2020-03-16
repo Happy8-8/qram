@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     resources :reviews, only: :create
     resources :photos, only: :create
   end
-  resources :users, only: :show
+  resources :dealers, only: :show
+  resources :consumers, only: :show
 end

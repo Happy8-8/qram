@@ -3,10 +3,7 @@ class Dealer < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
-         has_many :cars
-         has_many :descriptions
-         has_many :photos
-
-
+  has_many :cars
+  has_many :descriptions
+  has_many :photos
 end

@@ -1,103 +1,66 @@
 class CarsController < ApplicationController
-  before_action :authenticate_dealer!, only: [:dnew, :dcreate, :dedit, :dupdate, :destroy]
-  before_action :authenticate_consumer!, only: [:cnew, :ccreate, :cedit, :cupdate]
+  before_action :authenticate_dealer!, only: [:new, :create, :edit, :update, :destroy]
   def index
-      @cars = Car.paginate(page: params[:page], per_page: 4)
-    end
+    @cars = Car.paginate(page: params[:page], per_page: 4)
+  end
 
-    def dnew
-      @car = Car.new
-    end
+  def new
+    @car = Car.new
+  end
 
-    def cnew
-      @car = Car.new
-    end
-
-    def dcreate
-      @car = current_dealer.cars.create(car_params)
-      if @car.valid?
-          redirect_to root_path
-      else
-          render :dnew, status: :unprocessable_entity
-      end
-    end
-
-    def ccreate
-      @car = current_consumer.cars.create(car_params)
-      if @car.valid?
-          redirect_to root_path
-      else
-          render :cnew, status: :unprocessable_entity
-      end
-    end
-
-
-    def show
-      @car = Car.find(params[:id])
-      @review = Review.new
-      @description = Description.new
-      @photo = Photo.new 
-    end
-
-    def dedit
-      @car = Car.find(params[:id])
-
-      if @car.dealer != current_dealer
-        return render plain: 'Not Allowed', status: :forbidden
-      end
-    end
-
-    def cedit
-      @car = Car.find(params[:id])
-
-      if @car.consumer != current_consumer
-        return render plain: 'Not Allowed', status: :forbidden
-      end
-    end
-
-    def dupdate
-      @car = Car.find(params[:id])
-      if @car.dealer != current_dealer
-        return render plain: 'Not Allowed', status: :forbidden
-      end
-      
-      @car.update_attributes(car_params)
-      if @car.valid?
+  def create
+    @car = current_dealer.cars.create(car_params)
+    if @car.valid?
         redirect_to root_path
-      else
-        render :dedit, status: :unprocessable_entity
-      end
+    else
+        render :dnew, status: :unprocessable_entity
     end
+  end
 
 
-    def cupdate
-      @car = Car.find(params[:id])
-      if @car.consumer != current_consumer
-        return render plain: 'Not Allowed', status: :forbidden
-      end
-      
-      @car.update_attributes(car_params)
-      if @car.valid?
-        redirect_to root_path
-      else
-        render :cedit, status: :unprocessable_entity
-      end
+  def show
+    @car = Car.find(params[:id])
+    @review = Review.new
+    @description = Description.new
+    @photo = Photo.new 
+  end
+
+  def edit
+    @car = Car.find(params[:id])
+
+    if @car.dealer != current_dealer
+      return render plain: 'Not Allowed', status: :forbidden
     end
+  end
 
-    def destroy
-      @car = Car.find(params[:id])
-      if @car.dealer != current_dealer
-        return render plain: 'Not Allowed', status: :forbidden
-      end
+  def update
+    @car = Car.find(params[:id])
+    if @car.dealer != current_dealer
+      return render plain: 'Not Allowed', status: :forbidden
+    end
     
-      @car.destroy
+    @car.update_attributes(car_params)
+    if @car.valid?
       redirect_to root_path
+    else
+      render :dedit, status: :unprocessable_entity
     end
+  end
 
-
-    private
+  def destroy
+    @car = Car.find(params[:id])
+    if @car.dealer != current_dealer
+      return render plain: 'Not Allowed', status: :forbidden
+    end
   
-    def car_params
-      params.require(:car).permit(:name, :ddescription, :cdescription, :address)
-    end
+    @car.destroy
+    redirect_to root_path
+  end
+
+
+  private
+
+  def car_params
+    params.require(:car).permit(:name, :ddescription, :cdescription, :address)
+  end
 end

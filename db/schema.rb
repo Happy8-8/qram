@@ -16,6 +16,10 @@ ActiveRecord::Schema.define(version: 2020_03_09_233932) do
   enable_extension "plpgsql"
 
   create_table "cars", force: :cascade do |t|
+    t.string "name"
+    t.text "ddescription"
+    t.text "cdescription"
+    t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "consumer_id"
@@ -51,19 +55,37 @@ ActiveRecord::Schema.define(version: 2020_03_09_233932) do
   end
 
   create_table "descriptions", force: :cascade do |t|
+    t.text "message"
+    t.string "rating"
+    t.integer "dealer_id"
+    t.integer "car_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_descriptions_on_car_id"
+    t.index ["dealer_id", "car_id"], name: "index_descriptions_on_dealer_id_and_car_id"
   end
 
   create_table "photos", force: :cascade do |t|
+    t.text "caption"
+    t.integer "consumer_id"
+    t.integer "dealer_id"
+    t.integer "car_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "picture"
+    t.index ["car_id"], name: "index_photos_on_car_id"
+    t.index ["dealer_id", "car_id"], name: "index_photos_on_dealer_id_and_car_id"
   end
 
   create_table "reviews", force: :cascade do |t|
+    t.text "message"
+    t.string "rating"
+    t.integer "consumer_id"
+    t.integer "car_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_reviews_on_car_id"
+    t.index ["consumer_id", "car_id"], name: "index_reviews_on_consumer_id_and_car_id"
   end
 
 end

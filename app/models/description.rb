@@ -16,5 +16,5 @@ class Description < ApplicationRecord
 
   def send_description_email
     NotificationMailer.description_added(self).deliver_now
-end
+  end
 end

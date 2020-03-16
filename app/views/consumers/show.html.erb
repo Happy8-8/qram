@@ -1,0 +1,67 @@
+<div class="booyah-box">
+    <div class="row">
+        <div class="col-4">
+            <%= image_tag 'consumer.png' %>
+    </div>
+
+<div class="col-8">
+
+  <h1><%= @consumer.email %></h1>
+  <h3>Member Since: <%= @consumer.created_at.strftime("%B %d, %Y") %></h3>
+  <h4><%= @consumer.reviews.count %> total reviews</h4>
+  <h4><%= @consumer.reviews.where(rating: '5_stars').count %> total 5 star reviews</h4>
+  </div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+<br /><br />
+<h1 class="text-center">My Reviews</h1>
+<br /><br />
+    <div class="row">
+        <% @consumer.reviews.each do |review| %>
+            <div class="col-12 col-sm-6">
+            <h2 class="text-center"><%= link_to review.car.name, car_path(review.car) %></h2>
+            <blockquote>
+                <% if review.humanized_rating.present? %>
+                <b><%= review.humanized_rating %></b> -
+                <% end %>
+                <%= review.message %>
+                <small><%= review.consumer.email %></small>
+            </blockquote>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="clear"></div>
+    <br /><br />
+    <h2 class="text-center">My Cars</h2>
+    <br /><br />
+    
+    <% @consumer.cars.each do |car| %>
+      <div class="booyah-box col-10 offset-1">
+        <h1><%= link_to car.name, car_path(car) %></h1><br />
+        <i><%= car.address %></i><br />
+        <p><%= car.description %></p><br />
+    
+        <% if car.consumer.present? %>
+          <small><%= car.consumer.email %></small>
+        <% end %>
+    
+        <% if car.reviews.present? %>
+          <div class="col-12">
+            <blockquote>
+              <% if car.reviews.last.humanized_rating.present? %>
+                <b><%= car.reviews.last.humanized_rating %></b> -
+              <% end %>
+              <%= car.reviews.last.message %>
+              <small><%= car.reviews.last.consumer.email %></small>
+            </blockquote>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% @consumer.cars.each do |car| %>
+        <%= car.inspect %>
+    <% end %>
