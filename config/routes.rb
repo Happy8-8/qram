@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :consumers
-  devise_for :dealers
+  devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'cars#index'
   resources :cars do
@@ -8,6 +7,5 @@ Rails.application.routes.draw do
     resources :reviews, only: :create
     resources :photos, only: :create
   end
-  resources :dealers, only: :show
-  resources :consumers, only: :show
+  resources :users, only: :show
 end

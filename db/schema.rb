@@ -22,70 +22,55 @@ ActiveRecord::Schema.define(version: 2020_03_09_233932) do
     t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "consumer_id"
-    t.integer "dealer_id"
+    t.integer "user_id"
     t.float "latitude"
     t.float "longitude"
-    t.index ["consumer_id"], name: "index_cars_on_consumer_id"
-    t.index ["dealer_id"], name: "index_cars_on_dealer_id"
-  end
-
-  create_table "consumers", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.index ["email"], name: "index_consumers_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_consumers_on_reset_password_token", unique: true
-  end
-
-  create_table "dealers", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.index ["email"], name: "index_dealers_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_dealers_on_reset_password_token", unique: true
+    t.index ["user_id"], name: "index_cars_on_user_id"
   end
 
   create_table "descriptions", force: :cascade do |t|
     t.text "message"
     t.string "rating"
-    t.integer "dealer_id"
+    t.integer "user_id"
     t.integer "car_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_id"], name: "index_descriptions_on_car_id"
-    t.index ["dealer_id", "car_id"], name: "index_descriptions_on_dealer_id_and_car_id"
+    t.index ["user_id", "car_id"], name: "index_descriptions_on_user_id_and_car_id"
   end
 
   create_table "photos", force: :cascade do |t|
     t.text "caption"
-    t.integer "consumer_id"
-    t.integer "dealer_id"
+    t.integer "user_id"
     t.integer "car_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "picture"
     t.index ["car_id"], name: "index_photos_on_car_id"
-    t.index ["dealer_id", "car_id"], name: "index_photos_on_dealer_id_and_car_id"
+    t.index ["user_id", "car_id"], name: "index_photos_on_user_id_and_car_id"
   end
 
   create_table "reviews", force: :cascade do |t|
     t.text "message"
     t.string "rating"
-    t.integer "consumer_id"
+    t.integer "user_id"
     t.integer "car_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_id"], name: "index_reviews_on_car_id"
-    t.index ["consumer_id", "car_id"], name: "index_reviews_on_consumer_id_and_car_id"
+    t.index ["user_id", "car_id"], name: "index_reviews_on_user_id_and_car_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

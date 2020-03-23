@@ -1,5 +1,5 @@
 class Car < ApplicationRecord
-    belongs_to :dealer
+    belongs_to :user
     has_many :descriptions
     has_many :reviews
     has_many :photos

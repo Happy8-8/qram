@@ -1,5 +1,5 @@
 class Description < ApplicationRecord
-  belongs_to :dealer
+  belongs_to :user
   belongs_to :car
   after_create :send_description_email
 

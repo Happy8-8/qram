@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
-  before_action :authenticate_consumer!
+  before_action :authenticate_user!
     def create
         @car = Car.find(params[:car_id])
-        @car.reviews.create(review_params.merge(consumer: current_consumer))
+        @car.reviews.create(review_params.merge(user: current_user))
         redirect_to car_path(@car)
     end
 

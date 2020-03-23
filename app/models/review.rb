@@ -1,5 +1,5 @@
 class Review < ApplicationRecord
-  belongs_to :consumer
+  belongs_to :user
   belongs_to :car
   after_create :send_review_email
 

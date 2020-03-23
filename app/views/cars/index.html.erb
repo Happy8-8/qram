@@ -36,17 +36,13 @@
 
 <% @cars.each do |car| %>
   <div class="booyah-box col-10 offset-1">
-      <h1><%= link_to car.name, car_path(car) %></h1><br />
-      <i><%= car.address %></i><br /><br />
-      <p><%= car.cdescription %></p><br />
-      <p><%= car.ddescription %></p><br />
+    <h1><%= link_to car.name, car_path(car) %></h1><br />
+    <i><%= car.address %></i><br /><br />
+    <p><%= car.cdescription %></p><br />
+    <p><%= car.ddescription %></p><br />
 
-    <% if car.dealer.present? %>
-      <small><%= car.dealer.email %></small>
-    <% end %>
-
-    <% if car.consumer.present? %>
-      <small><%= car.consumer.email %></small>
+    <% if car.user.present? %>
+      <small><%= car.user.email %></small>
     <% end %>
     
     <% if car.reviews.present? %>
@@ -56,7 +52,7 @@
           <b><%= car.reviews.last.humanized_rating %></b> -
         <% end %>
         <%= car.reviews.last.message %>
-        <small><%= car.reviews.last.consumer.email %></small>
+        <small><%= car.reviews.last.user.email %></small>
       </blockquote>
     </div>
     <% end %>
@@ -68,7 +64,7 @@
           <b><%= car.descriptions.last.humanized_rating %></b> -
         <% end %>
         <%= car.descriptions.last.message %>
-        <small><%= car.descriptions.last.dealer.email %></small>
+        <small><%= car.descriptions.last.user.email %></small>
       </blockquote>
     </div>
     <% end %>

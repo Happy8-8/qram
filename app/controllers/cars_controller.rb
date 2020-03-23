@@ -1,5 +1,5 @@
 class CarsController < ApplicationController
-  before_action :authenticate_dealer!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   def index
     @cars = Car.paginate(page: params[:page], per_page: 4)
   end
@@ -9,11 +9,11 @@ class CarsController < ApplicationController
   end
 
   def create
-    @car = current_dealer.cars.create(car_params)
+    @car = current_user.cars.create(car_params)
     if @car.valid?
         redirect_to root_path
     else
-        render :dnew, status: :unprocessable_entity
+        render :new, status: :unprocessable_entity
     end
   end
 
@@ -28,14 +28,14 @@ class CarsController < ApplicationController
   def edit
     @car = Car.find(params[:id])
 
-    if @car.dealer != current_dealer
+    if @car.user != current_user
       return render plain: 'Not Allowed', status: :forbidden
     end
   end
 
   def update
     @car = Car.find(params[:id])
-    if @car.dealer != current_dealer
+    if @car.user != current_user
       return render plain: 'Not Allowed', status: :forbidden
     end
     
@@ -43,13 +43,13 @@ class CarsController < ApplicationController
     if @car.valid?
       redirect_to root_path
     else
-      render :dedit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @car = Car.find(params[:id])
-    if @car.dealer != current_dealer
+    if @car.user != current_user
       return render plain: 'Not Allowed', status: :forbidden
     end
   
