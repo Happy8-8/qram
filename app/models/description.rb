@@ -1,7 +1,7 @@
 class Description < ApplicationRecord
   belongs_to :user
   belongs_to :car
-  after_create :send_description_email
+  
 
   RATINGS = {
     'one star': '1_star',
@@ -14,7 +14,5 @@ class Description < ApplicationRecord
     RATINGS.invert[self.rating]
   end
 
-  def send_description_email
-    NotificationMailer.description_added(self).deliver_now
-  end
+  
 end
